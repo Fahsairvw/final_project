@@ -1,25 +1,48 @@
 # import database module
-
+import os, csv
+import database
 # define a funcion called initializing
+my_DB = database.Database()
+
+    # here are things to do in this function:
+def read_file(file):
+    __location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    # create an object to read an input csv file, persons.csv
+    _list = []
+    with open(os.path.join(__location__, file)) as f:
+        rows = csv.DictReader(f)
+        for r in rows:
+            _list.append(dict(r))
+    return _list
 
 def initializing():
-    pass
-
-# here are things to do in this function:
-
-    # create an object to read all csv files that will serve as a persistent state for this program
-
-    # create all the corresponding tables for those csv files
-
-    # see the guide how many tables are needed
-
-    # add all these tables to the database
+    # create a 'persons' table
+    persons_list = read_file('persons.csv')
+    persons = database.Table('persons', persons_list)
+    # print(persons)
+    # add the 'persons' table into the database
+    my_DB.insert(persons)
+    # print(persons.table)
+    # create a 'login' table
+    login_list = read_file('login.csv')
+    login = database.Table('login', login_list)
+    # print(login.table)
+    my_DB.insert(login)
 
 
 # define a funcion called login
 
 def login():
-    pass
+    username = input('username: ')
+    password = input('password: ')
+    DB_login = my_DB.search('login')
+    for i in DB_login.table:
+        if username == i['username'] and password == i['password']:
+            print([i['ID'], i['role']])
+            return [i['ID'], i['role']]
+    print('Invalid')
+    return None
 
 # here are things to do in this function:
    # add code that performs a login task
@@ -27,6 +50,14 @@ def login():
         # returns [ID, role] if valid, otherwise returning None
 
 # define a function called exit
+def exit_csv(file, table, head):
+    myFile = open(f"{file}.csv", 'w')
+    writer = csv.writer(myFile)
+    writer.writerow(head)
+    for dictionary in my_DB.search(table).table:
+        writer.writerow(dictionary.values())
+    myFile.close()
+
 def exit():
     pass
 
@@ -38,10 +69,9 @@ def exit():
 
 
 # make calls to the initializing and login functions defined above
-
 initializing()
 val = login()
-
+exit_csv("login", my_DB.search("login").table)
 # based on the return value for login, activate the code that performs activities according to the role defined for that person_id
 
 # if val[1] = 'admin':
