@@ -10,7 +10,7 @@ with open(os.path.join(__location__, 'persons.csv')) as f:
     rows = csv.DictReader(f)
     for r in rows:
         persons.append(dict(r))
-print(persons)
+# print(persons)
 
 # add in code for a Database class
 class Database:
@@ -82,6 +82,9 @@ class Table:
                     dict_temp[key] = item1[key]
             temps.append(dict_temp)
         return temps
+
+    def __iter__(self):
+        return iter(self.table)
 
     def __str__(self):
         return self.table_name + ':' + str(self.table)
