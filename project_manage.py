@@ -193,6 +193,7 @@ class Student:
             print('You have already sent this request!')
         else:
             DB_student = my_DB.search('login')
+            print(f'{"username":18}ID')
             for i in DB_student.table:
                 if i['role'] == 'student':
                     print(f"{i['username']:18}{i['ID']}")
@@ -210,8 +211,10 @@ class Student:
         else:
             DB_advisor = my_DB.search('login')
             id_faculty = [advisor['ID'] for advisor in DB_advisor.table if advisor['role'] == 'faculty']
+            print(f'{"username":18}ID')
             for i in DB_advisor.table:
                 if i['role'] == 'faculty':
+                    print(f'{"username":18}ID')
                     print(f"{i['username']:18}{i['ID']}")
             id_invitation = get_option(id_faculty, 'Type ID person that you want to choose: ')
             pending.table.append(
@@ -348,7 +351,8 @@ class Advisor:
         elif choice == 0:
             faculty_table = my_DB.search('faculty')
             this_faculty = faculty_table.filter(lambda x: x['ID'] == self.ID)
-            update_info = {'ID': self.ID, 'pro_id': self.pro_id}
+            pro_id = self.project_info()
+            update_info = {'ID': self.ID, 'pro_id': pro_id}
             if this_faculty.table:
                 this_faculty.table[0] = update_info
             else:
@@ -370,7 +374,6 @@ class Advisor:
             for row in other_request:
                 row['status'] = 'deny'
             this_request['status'] = 'accept'
-            self.pro_id = choose
             project = my_DB.search('project')
             my_project = project.filter(lambda x: x['proID'] == choose).table[0]
             my_project['advisor'] = self.ID
@@ -496,6 +499,9 @@ class Admin:
             login_table = my_DB.search('login')
             filter_login = login_table.filter(lambda x: x['ID'] == advisor).table[0]
             filter_login['role'] = 'faculty'
+            filter_login = login_table.filter(lambda x: x['ID'] == leader_id).table[0]
+            filter_login['role'] = 'student'
+
             if mem1:
                 for i in range(len(pending_student.table)):
                     if pending_student.table[i]['proID'] == pro_id:
@@ -510,8 +516,6 @@ class Admin:
                         break
                 filter_login = login_table.filter(lambda x: x['ID'] == mem2).table[0]
                 filter_login['role'] = 'student'
-            filter_login = login_table.filter(lambda x: x['ID'] == leader_id).table[0]
-            filter_login['role'] = 'student'
 
         elif choice == 0:
             exit_all()
