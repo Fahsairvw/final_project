@@ -45,7 +45,7 @@ for more information, please read the TODO and proposal. Sorry for the short des
 which can not be postponed because my hand is bleeding.
 
 
-**|  Role |  Action | Method  | Class |  Completion Percentage|**
+|  Role |  Action | Method  | Class |  Completion Percentage|
 |---|---|---|---|---|
 | Admin  | menu and edit info | menu | Admin  | 95 % |
 | leader  | create project  | create_project | Student  | 100 % |
