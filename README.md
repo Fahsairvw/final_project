@@ -46,25 +46,45 @@ which can not be postponed because my hand is bleeding.
 
 
 **|  Role |  Action | Method  | Class |  Completion Percentage|**
+|---|---|---|---|---|
 | Admin  | menu and edit info | menu | Admin  | 95 % |
+|---|---|---|---|---|
 | leader  | create project  | create_project | Student  | 100 % |
+|---|---|---|---|---|
 | leader  | get project id, name  | project_info | Student  | 100 % |
+|---|---|---|---|---|
 | student  | menu  | student_menu | Student  | 100 % |
+|---|---|---|---|---|
 | leader  | menu  | leader_menu | Student  | 100 % |
+|---|---|---|---|---|
 | member | menu  | member_menu | Student | 100 % |
+|---|---|---|---|---|
 | leader  | sent member request  | send_request_member | Student | 100 % |
+|---|---|---|---|---|
 | leader  | sent advisor request  | send_request_advisor | Student | 100 % |
+|---|---|---|---|---|
 | leader  | check request  | lead_check_request | Student | 100 % |
+|---|---|---|---|---|
 | student  | check request  | student_check_request | Student | 100 % |
+|---|---|---|---|---|
 | leader  | check project  | check_project | Student | 100 % |
+|---|---|---|---|---|
 | leader  | sent request proposal | sent_project | Student | 100 % |
+|---|---|---|---|---|
 | advisor/faculty  | get project id  | project_info | Advisor | 100 % |
+|---|---|---|---|---|
 | advisor  | menu  | advisor_menu | Advisor | 100 % |
+|---|---|---|---|---|
 | faculty  | menu  | faculty_menu | Advisor | 100 % |
+|---|---|---|---|---|
 | faculty  | check request  | check_pending_status | Advisor | 100 % |
+|---|---|---|---|---|
 | faculty  | menu  | faculty_menu | Advisor | 100 % |
+|---|---|---|---|---|
 | advisor  | check project  | check_project | Advisor | 100 % |
+|---|---|---|---|---|
 | advisor  | check proposal  | check_submit | Advisor | 100 % |
+|---|---|---|---|---|
 | faculty  | approve project  | approve_project | Advisor | 100 % |
 |---|---|---|---|---|
 
