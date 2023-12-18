@@ -110,7 +110,6 @@ class Student:
         this_pro = [i['proID'] for i in project.table if i['lead_ID'] == self.ID or i['member1_id'] == self.ID or i['member2_id'] == self.ID]
         this_proname = [i['proName'] for i in project.table if
                     i['lead_ID'] == self.ID or i['member1_id'] == self.ID or i['member2_id'] == self.ID]
-        # this_pro = project.filter(lambda x: x['lead_ID'] == self.ID or x['member1_id'] == self.ID or x['member2_id'] == self.ID).table[0]
         proid = this_pro[0]
         proname = this_proname[0]
         return proid, proname
@@ -214,7 +213,6 @@ class Student:
             print(f'{"username":18}ID')
             for i in DB_advisor.table:
                 if i['role'] == 'faculty':
-                    print(f'{"username":18}ID')
                     print(f"{i['username']:18}{i['ID']}")
             id_invitation = get_option(id_faculty, 'Type ID person that you want to choose: ')
             pending.table.append(
@@ -274,12 +272,15 @@ class Student:
         project = my_DB.search('project')
         proid, proname = self.project_info()
         my_project = project.filter(lambda x: x['proID'] == proid).table[0]
-        print(my_project['proID'], my_project['proName'])  ##### print project detail
-        print(f"My project is {my_project['status']}.")
-        ans = get_option(['y', 'n'], "Do you want to change your project name ['y', 'n']: ")
-        if ans == 'y':
-            name = input('What name do you want to change: ')
-            my_project['proName'] = name
+        print(f"project ID :{my_project['proID']}, project Name: {my_project['proName']}")  ##### print project detail
+        if my_project['status'] == 'complete':
+            print(f"My project is {my_project['status']}🤩.")
+        else:
+            print(f"My project is {my_project['status']}.")
+            ans = get_option(['y', 'n'], "Do you want to change your project name ['y', 'n']: ")
+            if ans == 'y':
+                name = input('What name do you want to change: ')
+                my_project['proName'] = name
 
     def send_project(self):
         project = my_DB.search('project')
@@ -295,6 +296,8 @@ class Student:
         elif check_pending.table:
             print('Already sent')
         else:
+            pro_id, pro_name = self.project_info()
+            print(f"Our project is {proname}({pro_id})")
             ans = get_option(['y', 'n'], "Are this project ready to submit ['y', 'n']: ")
             if ans == 'y':
                 pending_send.table.append(
@@ -308,10 +311,14 @@ class Advisor:
 
     def project_info(self):
         project = my_DB.search('project')
-        print()
+        approve_project = my_DB.search('approve_project')
         this_pro = [i['proID'] for i in project.table if i['advisor'] == self.ID]
-        proid = this_pro[0]
-        return proid
+        if this_pro:
+            pro_id = this_pro[0]
+        else:
+            this_pro_ = [i['proID'] for i in approve_project.table if i['faculty'] == self.ID]
+            pro_id = this_pro_[0]
+        return pro_id
 
     def advisor_menu(self):
         print('1. check project')
@@ -408,8 +415,8 @@ class Advisor:
                 login_table = my_DB.search('login')
                 id_faculty = [i['ID'] for i in login_table.table if i['role'] == 'faculty' or i['role'] == 'advisor']
                 project = my_DB.search('project')
-                my_project = project.filter(lambda x: x['proID'] == pro_id).table[0]
                 pro_id = self.project_info()
+                my_project = project.filter(lambda x: x['proID'] == pro_id).table[0]
                 for id in id_faculty:
                     send_project.table.append(
                         {'proID': pro_id, 'proName': my_project['proName'], 'faculty': id, 'status': 'on going'})

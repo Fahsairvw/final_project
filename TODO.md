@@ -36,7 +36,7 @@ Last but not least, leader submitting their proposal to the advisor.
 
 **Student members**
 They can look and modify the project details(changing the name of their group). 
-They can submit their proposal to the advisor as well.
+They can check their proposal status as well.
 -logout
 
 
